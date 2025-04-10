@@ -1,0 +1,44 @@
+/* Style the entire calculator */
+.calculator {
+    width: 300px;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: #222;
+    border-radius: 10px;
+    box-shadow: 0 0 10px black;
+}
+
+/* Style the display */
+.display {
+    background-color: black;
+    color: white;
+    font-size: 2rem;
+    padding: 20px;
+    text-align: right;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+/* Style the buttons area */
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);  /* 4 buttons per line */
+    gap: 10px;
+}
+
+/* Style for all buttons */
+button {
+    padding: 20px;
+    font-size: 1.5rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Button hover effect */
+button:hover {
+    background-color: #555;
+}
