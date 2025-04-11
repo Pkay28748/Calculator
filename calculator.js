@@ -1,65 +1,78 @@
-// Creating basic math functions
-
-function add (a,b){
-    return a + b ;
+// Basic Math Functions
+function add(a, b) {
+    return a + b;
 };
 
-function subtract(a,b){
-    return a - b ;
+function subtract(a, b) {
+    return a - b;
 };
 
-function multiply(a,b){
-    return a * b ;
+function multiply(a, b) {
+    return a * b;
 };
 
-function divide(a,b){
-    if(b === 0){
-        throw "Error"; // You can't divide a number by 0 
+function divide(a, b) {
+    if (b === 0) {
+        throw "Error"; // Cannot divide by zero
     }
-    return a / b ;
+    return a / b;
 };
 
-// The next step is to create an operate function that will call the appropriate math function
-// based on the operator. 
-// The operate function is like the brain of the calculator.
-
-
-function operate(operator,a,b){
-    // a,b in its original form represents strings so we have to convert them to numbers
-
+// Operate Function
+function operate(operator, a, b) {
     a = Number(a);
     b = Number(b);
 
-    switch(operator){
-
-        case "+" :
-            return add(a,b); // addition function called
-
-        case "-" : 
-            return subtract(a,b); // subraction function called
-        case "/" :
-            return divide(a,b); // division function called
-        case "*" :
-            return multiply(a,b); // multiplication function called
-        
-        default :
-            return null; // if no operator is passed
-
+    switch (operator) {
+        case "+":
+            return add(a, b);
+        case "-":
+            return subtract(a, b);
+        case "*":
+            return multiply(a, b);
+        case "/":
+            return divide(a, b);
+        default:
+            return null;
     }
 };
 
-// The next step is to add event listeners to buttons so that when clicked. 
-// it is displayed on the screen. 
+// Variables
+const calculatorScreen = document.querySelector('.display');
+const numbers = document.querySelectorAll('.operand');
+const operators = document.querySelectorAll('.operator');
 
+let firstOperand = '';
+let secondOperand = '';
+let currentOperator = null;
+let shouldResetScreen = false;
 
-const calculatorScreen = document.querySelector('.display'); // display is selected
-const numbers = document.querySelectorAll('.operand'); // all numbers on the calculator is being selected
+// Number Buttons (Operands)
+numbers.forEach(button => {
+    button.addEventListener('click', () => {
+        if (calculatorScreen.textContent === "0" || shouldResetScreen) {
+            calculatorScreen.textContent = button.textContent;
+            shouldResetScreen = false;
+        } else {
+            calculatorScreen.textContent += button.textContent;
+        }
+    });
+});
 
-// The querySelectorAll returns a nodelist and for that reason we have to atatch the event
-// listeners to each of the operand in the nodelist.
-numbers.forEach(button=>{
-    button.addEventListener('click',()=>{
-        calculatorScreen.textContent += numbers.textContent
-    })
-})
+// Operator Buttons
+operators.forEach(operator => {
+    operator.addEventListener('click', () => {
+        if (currentOperator !== null) calculate();  // Optional chaining of operations
+        firstOperand = calculatorScreen.textContent;
+        currentOperator = operator.textContent;
+        shouldResetScreen = true;  // Prepare screen for second operand
+    });
+});
 
+// Calculate Function
+function calculate() {
+    if (currentOperator === null || shouldResetScreen) return;
+    secondOperand = calculatorScreen.textContent;
+    calculatorScreen.textContent = operate(currentOperator, firstOperand, secondOperand);
+    currentOperator = null;  // Reset operator
+}
