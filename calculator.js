@@ -48,3 +48,18 @@ function operate(operator,a,b){
     }
 };
 
+// The next step is to add event listeners to buttons so that when clicked. 
+// it is displayed on the screen. 
+
+
+const calculatorScreen = document.querySelector('.display'); // display is selected
+const numbers = document.querySelectorAll('.operand'); // all numbers on the calculator is being selected
+
+// The querySelectorAll returns a nodelist and for that reason we have to atatch the event
+// listeners to each of the operand in the nodelist.
+numbers.forEach(button=>{
+    button.addEventListener('click',()=>{
+        calculatorScreen.textContent += numbers.textContent
+    })
+})
+
