@@ -93,7 +93,8 @@ function calculate() {
     secondOperand = calculatorScreen.textContent;
     const result = operate(currentOperator, firstOperand, secondOperand);
     if (result !== null) {
-        calculatorScreen.textContent = result;
+        calculatorScreen.textContent = Number(result.toFixed(8));
+
     }
     currentOperator = null;  // Reset operator
 }
