@@ -13,10 +13,17 @@ function multiply(a, b) {
 
 function divide(a, b) {
     if (b === 0) {
-        throw "Error"; // Cannot divide by zero
+        calculatorScreen.textContent = "Error";
+        calculatorScreen.classList.add('error');
+        setTimeout(() => {
+            calculatorScreen.textContent = "0";
+            calculatorScreen.classList.remove('error');
+            shouldResetScreen = true; // next input clears the error message
+        }, 2000);
+        return null;
     }
     return a / b;
-};
+}
 
 // Operate Function
 function operate(operator, a, b) {
@@ -35,17 +42,18 @@ function operate(operator, a, b) {
         default:
             return null;
     }
-};
+}
 
 // Variables
 const calculatorScreen = document.querySelector('.display');
 const numbers = document.querySelectorAll('.operand');
 const operators = document.querySelectorAll('.operator');
+const clearButton = document.querySelector('.clear');
 
 let firstOperand = '';
 let secondOperand = '';
-let currentOperator = null;
-let shouldResetScreen = false;
+let currentOperator = null;    
+let shouldResetScreen = false; // Flag to determine if screen should reset
 
 // Number Buttons (Operands)
 numbers.forEach(button => {
@@ -57,6 +65,16 @@ numbers.forEach(button => {
             calculatorScreen.textContent += button.textContent;
         }
     });
+});
+
+// what happens when the clear button is clicked
+// clears the screen and resets the calculator
+clearButton.addEventListener('click', () => {
+    calculatorScreen.textContent = '0';
+    firstOperand = '';
+    secondOperand = '';
+    currentOperator = null;
+    shouldResetScreen = false;
 });
 
 // Operator Buttons
@@ -73,6 +91,9 @@ operators.forEach(operator => {
 function calculate() {
     if (currentOperator === null || shouldResetScreen) return;
     secondOperand = calculatorScreen.textContent;
-    calculatorScreen.textContent = operate(currentOperator, firstOperand, secondOperand);
+    const result = operate(currentOperator, firstOperand, secondOperand);
+    if (result !== null) {
+        calculatorScreen.textContent = result;
+    }
     currentOperator = null;  // Reset operator
 }
